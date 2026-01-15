@@ -724,6 +724,11 @@ require('lazy').setup({
         automatic_installation = false,
         handlers = {
           function(server_name)
+            -- Skip ts_ls since we're using typescript-tools instead
+            if server_name == 'ts_ls' or server_name == 'tsserver' then
+              return
+            end
+
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling

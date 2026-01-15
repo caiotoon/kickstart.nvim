@@ -10,6 +10,15 @@ return {
     "MunifTanjim/nui.nvim",
   },
   config = function ()
-    require('neo-tree').setup {}
+    require('neo-tree').setup {
+      filesystem = {
+        window = {
+          mappings = {
+            ["<space>"] = "none",  -- Disable space to avoid conflict with leader key
+            -- Use <CR> (Enter) or 'o' to open files/folders
+          },
+        },
+      },
+    }
   end,
 }
