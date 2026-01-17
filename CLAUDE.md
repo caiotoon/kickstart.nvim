@@ -17,6 +17,9 @@ This is a Neovim configuration based on kickstart.nvim. It uses lazy.nvim for pl
 
 **Adding a new plugin:** Create a file in `lua/custom/plugins/` that returns a plugin spec table. It's automatically loaded via the `{ import = 'custom.plugins' }` statement in init.lua.
 
+Strong preference to keep anything outside `lua/custom/` intact to avoid merge conflicts, so any new changes
+should be added inside either that folder or `ftplugin` if possible.
+
 ## Key Configuration Patterns
 
 **Plugin spec format:**
