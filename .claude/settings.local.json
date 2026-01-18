@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvim:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(wsl -e bash -c \"mkdir -p ~/.config/nvim && rm -rf ~/.config/nvim/* && cp -r /mnt/c/Users/caio/AppData/Local/nvim/* ~/.config/nvim/\")",
+      "Bash(wsl -e bash:*)"
+    ]
+  }
+}
