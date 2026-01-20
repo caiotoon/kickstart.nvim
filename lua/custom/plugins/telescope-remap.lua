@@ -7,7 +7,16 @@ return {
     { '<leader>fh', function() require('telescope.builtin').help_tags() end, desc = '[F]ind [H]elp' },
     { '<leader>fu', function() require('telescope.builtin').lsp_references() end, desc = '[F]ind [U]sages/references' },
   },
-  opts = {
-    path_display = 'truncate',
-  },
+  init = function()
+    -- Modify telescope config after main setup completes
+    vim.api.nvim_create_autocmd('VimEnter', {
+      once = true,
+      callback = function()
+        vim.schedule(function()
+          local config = require 'telescope.config'
+          config.values.path_display = { 'smart' }
+        end)
+      end,
+    })
+  end,
 }
