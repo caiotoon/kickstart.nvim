@@ -7,18 +7,8 @@ local jdtls = require 'jdtls'
 local root_markers = { 'gradlew', '.git', 'mvnw', 'pom.xml', 'build.gradle' }
 local root_dir = require('jdtls.setup').find_root(root_markers)
 
-if not root_dir then
-  return
-end
-
 -- Get jdtls installation path from Mason
-local jdtls_install = vim.fn.stdpath('data') .. '/mason/packages/jdtls'
-
--- Check if jdtls is actually installed
-if vim.fn.isdirectory(jdtls_install) == 0 then
-  vim.notify('jdtls not found in Mason. Install with :MasonInstall jdtls', vim.log.levels.WARN)
-  return
-end
+local jdtls_install = vim.fn.stdpath 'data' .. '/mason/packages/jdtls'
 
 -- Workspace directory (unique per project)
 local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
@@ -61,6 +51,28 @@ local config = {
   init_options = {
     bundles = {},
   },
+  on_attach = function(client, bufnr)
+    -- Helper function to set keymaps
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+    end
+
+    -- Traditional keybindings (gd/gD)
+    map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+    -- gr* keybindings (from init.lua global LspAttach)
+    map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+    map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+    map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+    map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+    map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+    map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+    map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+  end,
 }
 
 -- Start or attach to jdtls
