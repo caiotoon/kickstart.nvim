@@ -1,14 +1,13 @@
 return {
-  'nvim-telescope/telescope.nvim',
+  'Snikimonkd/telescope-git-conflicts.nvim',
   dependencies = {
+    'nvim-telescope/telescope.nvim',
     'nvim-lua/plenary.nvim',
-    'Snikimonkd/telescope-git-conflicts.nvim',
   },
-  keys = {},
+  keys = {
+    { '<leader>gc', '<cmd>Telescope conflicts<CR>', desc = '[G]it [C]onflicts' },
+  },
   config = function()
-    require('telescope').setup {}
     require('telescope').load_extension 'conflicts'
-
-    vim.keymap.set('n', '<leader>gc', '<cmd>:Telescope conflicts<CR>', { desc = '[G]it [C]onflicts' })
   end,
 }
