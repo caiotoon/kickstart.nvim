@@ -2,5 +2,6 @@
 -- Moved from lua/custom/plugins/init.lua to keep plugin spec files clean.
 
 vim.opt.relativenumber = true
+vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 
 vim.keymap.set('n', '<leader>wm', ':tab split<CR>', { desc = 'Tab zoom' })
