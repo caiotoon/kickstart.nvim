@@ -2,24 +2,36 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Contributing Rules (MANDATORY)
+
+1. **NEVER modify kickstart files.** `init.lua` and `lua/kickstart/` are upstream from kickstart.nvim. Editing them causes merge conflicts when pulling updates. If the only fix requires touching these files, flag it to the user — do not proceed.
+
+2. **All changes go in safe directories only:**
+   - `lua/custom/plugins/` — one file per plugin, returns a lazy.nvim spec (auto-imported via `{ import = 'custom.plugins' }`)
+   - `after/plugin/` — non-plugin config: keymaps, settings overrides, LSP config via `vim.lsp.config()`
+   - `ftplugin/` — filetype-specific configurations
+
+3. **Verify every change with headless nvim.** Before and after each change, run tests in `nvim --headless` to confirm assumptions and catch regressions. At minimum check: no startup errors, plugin count, and that the feature works. Document pre-test and post-test results.
+
 ## Overview
 
-This is a Neovim configuration based on kickstart.nvim. It uses lazy.nvim for plugin management and follows a modular structure for custom plugins.
+Neovim configuration based on kickstart.nvim. Uses lazy.nvim for plugin management.
 
 ## Architecture
 
-**Entry point:** `init.lua` - Contains core settings, keybindings, and base plugin definitions (~1000 lines, single-file philosophy from kickstart)
+**Entry point:** `init.lua` — core settings, keybindings, base plugin definitions (~1000 lines, upstream from kickstart)
 
 **Plugin organization:**
-- `lua/kickstart/plugins/` - Base plugins from kickstart framework (debug, lint, etc.)
-- `lua/custom/plugins/` - Custom user plugins (each file returns a plugin spec, auto-imported)
-- `ftplugin/` - Filetype-specific configurations (e.g., `java.lua` for jdtls setup)
+- `lua/kickstart/plugins/` — base plugins from kickstart (DO NOT EDIT)
+- `lua/custom/plugins/` — custom plugins (each file returns a plugin spec, auto-imported)
+- `after/plugin/` — keymaps (`keymaps.lua`), settings (`settings.lua`), LSP overrides (`lsp-overrides.lua`)
+- `ftplugin/` — filetype-specific configurations (e.g., `java.lua` for jdtls)
 
 ## Neovim Commands
 
-- `:Lazy` - Plugin manager (update, sync, install)
-- `:Mason` - Install LSP servers, formatters, linters
-- `:ConformInfo` - Show active formatters
+- `:Lazy` — plugin manager (update, sync, install)
+- `:Mason` — install LSP servers, formatters, linters
+- `:ConformInfo` — show active formatters
 
 ## External Dependencies
 
